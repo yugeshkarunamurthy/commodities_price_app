@@ -3,20 +3,13 @@ import pandas as pd
 import cloudpickle
 import os
 
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import OneHotEncoder
-
 # Load dataset to infer feature columns
 DATA_PATH = "daily_price.csv"
 MODEL_PATH = "commodities_price.pkl"
 
-@st.cache_data
 def load_data():
     return pd.read_csv(DATA_PATH)
 
-@st.cache_resource
 def load_model():
     with open(MODEL_PATH, 'rb') as f:
         return cloudpickle.load(f)
