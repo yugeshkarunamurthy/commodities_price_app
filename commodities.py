@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import joblib
+import cloudpickle
 import os
 
 from sklearn.compose import ColumnTransformer
@@ -18,7 +18,8 @@ def load_data():
 
 @st.cache_resource
 def load_model():
-    return joblib.load(MODEL_PATH)
+    with open(MODEL_PATH, 'rb') as f:
+        return cloudpickle.load(f)
 
 # Main Streamlit App
 
