@@ -3,24 +3,15 @@ import pandas as pd
 import joblib
 import os
  
-def load_data():
-    return pd.read_csv("daily_price.csv")
+data = pd.read_csv("daily_price.csv")
 
-def load_model():
-    return joblib.load("commodities_price.pkl")
+model = joblib.load("commodities_price.pkl")
 
 # Main Streamlit App
 
 st.title("🌾 Commodity Price Predictor")
 
 st.markdown("This app predicts the **price of a commodity** based on input features using a pre-trained model.")
-
-# Load data and model
-try:
-    data = load_data()
-    model = load_model()
-except FileNotFoundError:
-    st.error("Required files not found. Please ensure 'daily_price.csv' and 'model.pkl' exist in the same folder.")
 
 # Feature selection (excluding target column)
 target_col = 'price' if 'price' in data.columns else data.columns[-1]  # guessing target column
