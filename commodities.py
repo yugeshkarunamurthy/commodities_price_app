@@ -2,18 +2,12 @@ import streamlit as st
 import pandas as pd
 import joblib
 import os
-
-# Load dataset to infer feature columns
-DATA_PATH = "daily_price.csv"
-MODEL_PATH = "commodities_price.pkl"
-
-@st.cache_data
+ 
 def load_data():
-    return pd.read_csv(DATA_PATH)
+    return pd.read_csv("daily_price.csv")
 
-@st.cache_resource
 def load_model():
-    return joblib.load(MODEL_PATH)
+    return joblib.load("commodities_price.pkl")
 
 # Main Streamlit App
 
