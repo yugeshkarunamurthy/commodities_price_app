@@ -2,16 +2,36 @@ import streamlit as st
 import pandas as pd
 import joblib
 import os
- 
-data = pd.read_csv("daily_price.csv")
 
-model = joblib.load("commodities_price.pkl")
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import OneHotEncoder
+
+# Load dataset to infer feature columns
+DATA_PATH = "daily_price.csv"
+MODEL_PATH = "commodities_price.pkl"
+
+@st.cache_data
+def load_data():
+    return pd.read_csv(DATA_PATH)
+
+@st.cache_resource
+def load_model():
+    return joblib.load(MODEL_PATH)
 
 # Main Streamlit App
 
 st.title("🌾 Commodity Price Predictor")
 
 st.markdown("This app predicts the **price of a commodity** based on input features using a pre-trained model.")
+
+# Load data and model
+try:
+    data = load_data()
+    model = load_model()
+except FileNotFoundError:
+    st.error("Required files not found. Please ensure 'daily_price.csv' and 'model.pkl' exist in the same folder.")
 
 # Feature selection (excluding target column)
 target_col = 'price' if 'price' in data.columns else data.columns[-1]  # guessing target column
